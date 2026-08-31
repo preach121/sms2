@@ -1,0 +1,21 @@
+import { cn } from "@/lib/utils";
+
+export function Logo({ className, markClassName }: { className?: string; markClassName?: string }) {
+  return (
+    <span className={cn("inline-flex items-center gap-2 font-display font-semibold tracking-tight text-fg", className)}>
+      <svg
+        viewBox="0 0 32 32"
+        className={cn("size-7", markClassName)}
+        aria-hidden="true"
+      >
+        <rect width="32" height="32" rx="8" className="fill-accent" />
+        <path
+          d="M8 18.5c0-4.2 3.1-6.5 8.2-6.5 3.4 0 5.6 1.2 6.8 3.1l-2.6 1.6c-.8-1.2-2.1-1.9-4.2-1.9-2.7 0-4.4 1.3-4.4 3.1 0 1.6 1.3 2.5 4.6 3.2 4.1.8 6.8 2.4 6.8 5.6 0 4.3-3.4 6.7-8.6 6.7-3.8 0-6.5-1.4-7.8-3.5l2.7-1.7c.9 1.4 2.6 2.3 5.1 2.3 3 0 4.8-1.3 4.8-3.3 0-1.6-1.3-2.6-4.8-3.3-4.2-.8-6.6-2.5-6.6-5.4Z"
+          className="fill-accent-fg"
+          transform="translate(0 -4)"
+        />
+      </svg>
+      SMS2
+    </span>
+  );
+}
