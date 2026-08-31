@@ -116,7 +116,7 @@ const baseURL = explicitBaseURL ?? {
   protocol: "auto" as const,
   fallback: "http://localhost:8080",
 };
-? [explicitBaseURL, ...LOCAL_DEV_ORIGINS, ...VERCEL_ORIGINS]
+
 // Origins Better Auth accepts on credentialed POSTs (sign-up/sign-in, etc.).
 // Missing entries here surface as FORBIDDEN "Invalid origin".
 const trustedOrigins: string[] = explicitBaseURL
