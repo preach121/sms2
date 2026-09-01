@@ -118,7 +118,15 @@ function Marketplace() {
   const data = offersQuery.data ?? catalogue.data;
   const offers = useMemo(() => {
     let rows = data?.offers ?? [];
-    if (search.country) rows = rows.filter((o) => o.countryId === search.country);
+   if (search.country) {
+  const list = catalogue.data?.countries ?? data?.countries ?? [];
+  const selected = list.find((c) => c.id === search.country);
+  rows = rows.filter(
+    (o) =>
+      o.countryId === search.country ||
+      (selected && o.countryName.toLowerCase() === selected.name.toLowerCase()),
+  );
+}
     const query = q.trim().toLowerCase();
     if (query) {
       rows = rows.filter(
