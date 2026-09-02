@@ -430,7 +430,8 @@ function Marketplace() {
                   buy.mutate({
                     data: {
                       countryId: pendingOffer.countryId,
-                      serviceId: pendingOffer.serviceId,
+                      serviceId: pendingOffer.serviceId,countryName: pendingOffer.countryName,
+countryIso2: pendingOffer.countryIso2 || undefined,
                       idempotencyKey: crypto.randomUUID(),
                     },
                   });
