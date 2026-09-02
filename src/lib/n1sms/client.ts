@@ -58,7 +58,7 @@ function priceQueryKeys(named: CatalogueService, serviceId: string): string[] {
   const name = named.name || "";
   const first = name.split(/[\s/|,._-]+/).find((part) => part.replace(/[^a-z0-9]/gi, "").length > 2) ?? "";
   const compact = name.toLowerCase().replace(/[^a-z0-9]+/g, "");
-  const keys = [first.toLowerCase(), named.slug, compact, name.toLowerCase(), serviceId]
+  const keys = [serviceId, named.slug, compact, name.toLowerCase(), serviceId]
     .map((k) => k.trim())
     .filter((k) => k.length > 1);
   return Array.from(new Set(keys));
