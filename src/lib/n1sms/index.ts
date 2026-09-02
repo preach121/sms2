@@ -289,11 +289,10 @@ class Sms2Provider implements SmsProvider {
       try {
         const live = await this.live.getOffers(sid);
         if (live.length > 0) {
-          const marked = live.map((offer) => ({
-            ...offer,
-            customerPrice: applyMarkup(offer.wholesalePrice, await markupForService(offer.service.ServiceId, offer.ServiceName)),
-          }));
-          this.mode = "live";
+          const marked = await Promise.all(live.map(async (offer) => ({
+        ...offer,
+        customerPrice: applyMarkup(offer.wholesalePrice, await markupForService(offer.serviceId, offer.serviceName)),
+      })));
           await persistCatalogue(marked);
           return marked;
         }
