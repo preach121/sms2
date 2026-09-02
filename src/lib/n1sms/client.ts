@@ -287,7 +287,17 @@ export class N1SmsClient implements SmsProvider {
         }
         if (stocked > 0) break;
       }
-      offers.push(...best);
+     try {
+    const liveUs = await this.getStock({ countryId: "1", serviceId: named.id });
+    const usRow = best.find(function (row) {
+      return row.countryName === "United States" || row.countryId === "1";
+    });
+    if (usRow && liveUs.stock > 0) {
+      usRow.stock = liveUs.stock;
+      usRow.available = true;
+      if (liveUs.wholesalePrice > 0) usRow.wholesalePrice = liveUs.wholesalePrice;
+    }
+  } catch (err) {}
     }
     return offers.sort((a, b) => Number(b.available) - Number(a.available) || a.countryName.localeCompare(b.countryName));
   }
