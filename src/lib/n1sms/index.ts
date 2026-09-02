@@ -10,7 +10,7 @@ import {
   fallbackStock,
 } from "./fallback";
 import { categoryFor, isFallbackOnlyService, mergeServices, withCategory, canonicalServiceId } from "./catalog";
-import { applyMarkup, getMarkupMultiplier } from "./markup";
+import { applyMarkup, getMarkupMultiplier, markupForService } from "./markup";
 import type {
   CatalogueCountry,
   CatalogueOffer,
@@ -291,7 +291,7 @@ class Sms2Provider implements SmsProvider {
         if (live.length > 0) {
           const marked = live.map((offer) => ({
             ...offer,
-            customerPrice: applyMarkup(offer.wholesalePrice, markup),
+            customerPrice: applyMarkup(offer.wholesalePrice, await markupForService(offer.service.ServiceId, offer.ServiceName)),
           }));
           this.mode = "live";
           await persistCatalogue(marked);
