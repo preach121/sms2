@@ -293,7 +293,7 @@ export class N1SmsClient implements SmsProvider {
       }
      
       try {
-    const liveUs = await this.getStock({ countryId: "1", serviceId: named.id });
+    const liveUs = await this.getStock({ countryId: "1", serviceId: service.id });
     const usRow = best.find(function (row) {
       return row.countryName === "United States" || row.countryId === "1";
     });
@@ -302,6 +302,19 @@ export class N1SmsClient implements SmsProvider {
       usRow.available = true;
       if (liveUs.wholesalePrice > 0) usRow.wholesalePrice = liveUs.wholesalePrice;
     }
+        else if (liveUs.stock > 0) {
+  best.push({
+    serviceId: service.id,
+    serviceName: named.name,
+    countryId: "1",
+    countryName: "United States",
+    countryIso2: "US",
+    wholesalePrice: liveUs.wholesalePrice,
+    customerPrice: liveUs.wholesalePrice,
+    stock: liveUs.stock,
+    available: true,
+  });
+}
   } catch (err) {}
       offers.push(...best);
     }
