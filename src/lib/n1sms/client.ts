@@ -290,6 +290,7 @@ export class N1SmsClient implements SmsProvider {
           best = rows;
           bestStock = stocked;
         }
+        if(rows.length>0)Break;
       }
      
       try {
