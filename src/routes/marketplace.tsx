@@ -372,7 +372,7 @@ function Marketplace() {
             <div className="flex justify-end">
               <Button
                 size="sm"
-                disabled={!offer.available || buy.isPending}
+                disabled={buy.isPending}
                 onClick={() => {
                   if (!user) {
                     void navigate({ to: "/login" });
