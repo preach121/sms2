@@ -49,7 +49,7 @@ export function matchCountry(
       ?? countries.find((c) => c.iso2.toUpperCase() === iso);
     return {
       id: supplierId,
-      name: input.countryName?.trim()  listed?.name  iso,
+      name: input.countryName?.trim() || listed?.name || iso,
       iso2: iso,
       dial: listed?.dial ?? "",
     };
