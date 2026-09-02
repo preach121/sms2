@@ -279,7 +279,12 @@ export class N1SmsClient implements SmsProvider {
       let best: CatalogueOffer[] = [];
       let bestStock = -1;
       for (const key of keys) {
-        const rows = await this.priceRows(key, named);
+       let rows = [];
+    try {
+      rows = await this.priceRows(key, named);
+    } catch (fail) {
+      rows = [];
+    }
         const stocked = rows.filter((row) => row.available && row.stock > 0).length;
         if (rows.length > best.length || stocked > bestStock) {
           best = rows;
