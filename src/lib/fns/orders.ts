@@ -7,7 +7,8 @@ import { writeAudit } from "@/lib/server/audit";
 import { rateLimit } from "@/lib/server/rate-limit";
 import { requireActiveAccount } from "@/lib/server/identity";
 import { getSmsProvider } from "@/lib/n1sms";
-import { extractCode } from "@/lib/n1sms/client";
+import { extractCode} from "@/lib/n1sms/client";
+import { findOfferForBuy, matchCountry, phoneMatchesDial } from "@/lib/n1sms/countries";
 
 export type OrderDto = {
   id: string;
@@ -173,6 +174,8 @@ export const purchaseNumber = createServerFn({ method: "POST" })
   .validator(
     z.object({
       countryId: z.string().min(1),
+      countryName:z.string().min(1).optional(),
+      countryIso2:z.string().min(2).max(2).optional(),
       serviceId: z.string().min(1),
       idempotencyKey: z.string().uuid(),
     }),
@@ -189,14 +192,25 @@ export const purchaseNumber = createServerFn({ method: "POST" })
 
     const provider = getSmsProvider();
     const offers = await provider.getOffers(data.serviceId);
-    const offer = offers.find(
-      (row) => row.serviceId === data.serviceId && row.countryId === data.countryId,
-    );
+    const offer = findOfferForBuy(offers, {
+  serviceId: data.serviceId,
+  countryId: data.countryId,
+  countryName: data.countryName,
+  countryIso2: data.countryIso2,
+});
     if (!offer || !offer.available) {
       throw new Error("That number is currently unavailable. Please pick another country or service.");
     }
+   const countries = await provider.getCountries();
+const liveCountry = matchCountry(countries, {
+  countryId: offer.countryId,
+  countryName: offer.countryName,
+  countryIso2: offer.countryIso2 || data.countryIso2,
+});
+if (!liveCountry) {
+  throw new Error("That country is not available. Pick another country.");
     const stock = await provider.getStock({
-      countryId: offer.countryId,
+      countryId: liveCountry.id,
       serviceId: offer.serviceId,
     });
     if (!stock.available || stock.stock <= 0) {
@@ -239,7 +253,7 @@ export const purchaseNumber = createServerFn({ method: "POST" })
     let purchased;
     try {
       purchased = await provider.purchase({
-        countryId: offer.countryId,
+        countryId: liveCountry.id,
         serviceId: offer.serviceId,
       });
     } catch (err) {
