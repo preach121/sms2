@@ -198,7 +198,7 @@ export const purchaseNumber = createServerFn({ method: "POST" })
   countryName: data.countryName,
   countryIso2: data.countryIso2,
 });
-    if (!offer || !offer.available) {
+    if (!offer) {
       throw new Error("That number is currently unavailable. Please pick another country or service.");
     }
    const countries = await provider.getCountries();
