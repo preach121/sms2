@@ -209,6 +209,7 @@ const liveCountry = matchCountry(countries, {
 });
 if (!liveCountry) {
   throw new Error("That country is not available. Pick another country.");
+}
     const stock = await provider.getStock({
       countryId: liveCountry.id,
       serviceId: offer.serviceId,
