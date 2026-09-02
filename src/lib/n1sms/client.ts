@@ -299,6 +299,7 @@ export class N1SmsClient implements SmsProvider {
       if (liveUs.wholesalePrice > 0) usRow.wholesalePrice = liveUs.wholesalePrice;
     }
   } catch (err) {}
+      offers.push(...best);
     }
     return offers.sort((a, b) => Number(b.available) - Number(a.available) || a.countryName.localeCompare(b.countryName));
   }
