@@ -59,7 +59,7 @@ function Login() {
 
         {authEnabled ? (
           <div className="mt-6 space-y-3">
-            <Button
+         <Button
           type="button"
           variant="secondary"
           className="w-full"
@@ -67,15 +67,7 @@ function Login() {
         >
           Continue with Google
         </Button>
-        <Button
-          type="button"
-          variant="secondary"
-          className="w-full"
-          onClick={() => authClient.signIn.social({ provider: "twitter", callbackURL: "/dashboard" })}
-        >
-          Continue with X
-        </Button>
-            ))}
+      
           </div>
         ) : (
           <p className="mt-6 text-sm text-muted">Sign-in is disabled.</p>
