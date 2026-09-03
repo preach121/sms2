@@ -59,16 +59,22 @@ function Login() {
 
         {authEnabled ? (
           <div className="mt-6 space-y-3">
-            {GROK_PROVIDERS.map((p) => (
-              <Button
-                key={p.providerId}
-                type="button"
-                variant="secondary"
-                className="w-full"
-                onClick={() => signIn(p.providerId, { callbackURL: "/dashboard" })}
-              >
-                Continue with {p.label}
-              </Button>
+            <Button
+          type="button"
+          variant="secondary"
+          className="w-full"
+          onClick={() => authClient.signIn.social({ provider: "google", callbackURL: "/dashboard" })}
+        >
+          Continue with Google
+        </Button>
+        <Button
+          type="button"
+          variant="secondary"
+          className="w-full"
+          onClick={() => authClient.signIn.social({ provider: "twitter", callbackURL: "/dashboard" })}
+        >
+          Continue with X
+        </Button>
             ))}
           </div>
         ) : (
