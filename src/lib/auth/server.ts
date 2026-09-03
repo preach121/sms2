@@ -216,7 +216,16 @@ export const auth = betterAuth({
 
   // Local email/password — toggled only via `./email-password` (not a plugin).
   ...(emailAndPasswordEnabled ? { emailAndPassword: { enabled: true } } : {}),
-
+socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    },
+    twitter: {
+      clientId: process.env.TWITTER_CLIENT_ID || "",
+      clientSecret: process.env.TWITTER_CLIENT_SECRET || "",
+    },
+  },
   // `__Host-` prefixed cookies: the browser REFUSES any same-named cookie that
   // carries a `Domain` attribute, so a sibling `*.grok.me` app cannot "toss" a
   // `Domain=.grok.me` session cookie onto this app. `__Host-` requires Secure +
